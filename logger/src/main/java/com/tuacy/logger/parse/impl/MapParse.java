@@ -8,17 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * map对象转换为log字符串
+ */
 public class MapParse implements IParser<Map> {
 
 	@Override
-	public Class<Map> parseClassType() {
+	public Class<Map> classType() {
 		return Map.class;
 	}
 
 	@Override
-	public String parseString(Map map, List<IParser> parsers) {
+	public String parse(Map map, List<IParser> parsers) {
 		String msg = map.getClass().getName() + " [" + LINE_SEPARATOR;
-		Set<Object> keys = map.keySet();
+		Set keys = map.keySet();
 		for (Object key : keys) {
 			String itemString = "%s -> %s" + LINE_SEPARATOR;
 			Object value = map.get(key);
@@ -29,8 +32,7 @@ public class MapParse implements IParser<Map> {
 					value = "\'" + value + "\'";
 				}
 			}
-			msg += String.format(itemString, LoggerConvert.objectToString(key, parsers),
-								 LoggerConvert.objectToString(value, parsers));
+			msg += String.format(itemString, LoggerConvert.objectToString(key, parsers), LoggerConvert.objectToString(value, parsers));
 		}
 		return msg + "]";
 	}

@@ -1,6 +1,5 @@
 package com.tuacy.logger;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tuacy.logger.bean.LoggerInfo;
@@ -20,6 +19,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import static com.tuacy.logger.bean.LoggerInfo.LogLevel.ASSERT;
+import static com.tuacy.logger.bean.LoggerInfo.LogLevel.DEBUG;
+import static com.tuacy.logger.bean.LoggerInfo.LogLevel.ERROR;
+import static com.tuacy.logger.bean.LoggerInfo.LogLevel.INFO;
+import static com.tuacy.logger.bean.LoggerInfo.LogLevel.WARN;
+
 /**
  * 日志的具体实现
  */
@@ -32,22 +37,28 @@ public class LoggerImpl implements ILogger {
 		mConfig = config;
 	}
 
-	private void log(@NonNull LoggerInfo.LogLevel logLevel, @NonNull String tag, String format, Object... args) {
+	private void log(LoggerInfo.LogLevel logLevel, String tag, String format, Object... args) {
 		log(logLevel, tag, String.format(format, args));
 	}
 
-	private void log(@NonNull LoggerInfo.LogLevel logLevel, @NonNull String tag, Object object) {
+	private void log(LoggerInfo.LogLevel logLevel, String tag, Object object) {
 		log(logLevel, tag, LoggerConvert.objectToString(object, mConfig.getParseList()));
 	}
 
-	private void log(@NonNull LoggerInfo.LogLevel logLevel, @NonNull String tag, @NonNull String message) {
+	private void log(LoggerInfo.LogLevel logLevel, String tag, String message) {
 		/**
 		 * 是否显示日志
 		 */
 		if (!mConfig.isLogEnable()) {
 			return;
 		}
-		//TODO:日志等级判断
+		/**
+		 * 日志等级判断
+		 */
+		if (!levelCheck(logLevel)) {
+			return;
+		}
+
 		LoggerInfo.Builder builder = new LoggerInfo.Builder(logLevel, tag, message);
 		if (mConfig.isShowThreadName()) {
 			builder.threadName(Thread.currentThread().getName());
@@ -57,6 +68,24 @@ public class LoggerImpl implements ILogger {
 		}
 
 		mConfig.getPrinter().print(builder.build());
+	}
+
+	private boolean levelCheck(LoggerInfo.LogLevel logLevel) {
+		switch (mConfig.getLogLevel()) {
+			case VERBOSE:
+				return true;
+			case DEBUG:
+				return logLevel == DEBUG || logLevel == INFO || logLevel == WARN || logLevel == ERROR || logLevel == ASSERT;
+			case INFO:
+				return logLevel == INFO || logLevel == WARN || logLevel == ERROR || logLevel == ASSERT;
+			case WARN:
+				return logLevel == WARN || logLevel == ERROR || logLevel == ASSERT;
+			case ERROR:
+				return logLevel == ERROR || logLevel == ASSERT;
+			case ASSERT:
+				return logLevel == ASSERT;
+		}
+		return false;
 	}
 
 
@@ -74,7 +103,7 @@ public class LoggerImpl implements ILogger {
 	 * @param trace the stack trace
 	 * @return the start index
 	 */
-	private int getUnusedStackCount(@NonNull StackTraceElement[] trace) {
+	private int getUnusedStackCount(StackTraceElement[] trace) {
 		/**
 		 * The minimum stack trace index, starts at this class after two native calls.
 		 */
@@ -91,14 +120,14 @@ public class LoggerImpl implements ILogger {
 	}
 
 	@Override
-	public void v(@NonNull String tag, String format, Object... args) {
+	public void v(String tag, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
 			log(LoggerInfo.LogLevel.VERBOSE, tag, args);
 		}
 	}
 
 	@Override
-	public void v(@NonNull Class<?> clazz, String format, Object... args) {
+	public void v(Class<?> clazz, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
 			log(LoggerInfo.LogLevel.VERBOSE, clazz.getSimpleName(), args);
 		}
@@ -112,14 +141,14 @@ public class LoggerImpl implements ILogger {
 	}
 
 	@Override
-	public void v(@NonNull String tag, Object object) {
+	public void v(String tag, Object object) {
 		if (mConfig.isLogEnable()) {
 			log(LoggerInfo.LogLevel.VERBOSE, tag, object);
 		}
 	}
 
 	@Override
-	public void v(@NonNull Class<?> clazz, Object object) {
+	public void v(Class<?> clazz, Object object) {
 		if (mConfig.isLogEnable()) {
 			log(LoggerInfo.LogLevel.VERBOSE, clazz.getSimpleName(), object);
 		}
@@ -133,217 +162,217 @@ public class LoggerImpl implements ILogger {
 	}
 
 	@Override
-	public void d(@NonNull String tag, String format, Object... args) {
+	public void d(String tag, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.DEBUG, tag, format, args);
+			log(DEBUG, tag, format, args);
 		}
 	}
 
 	@Override
-	public void d(@NonNull Class<?> clazz, String format, Object... args) {
+	public void d(Class<?> clazz, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.DEBUG, clazz.getSimpleName(), format, args);
+			log(DEBUG, clazz.getSimpleName(), format, args);
 		}
 	}
 
 	@Override
 	public void d(String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.DEBUG, mConfig.getTag(), format, args);
+			log(DEBUG, mConfig.getTag(), format, args);
 		}
 	}
 
 	@Override
-	public void d(@NonNull String tag, Object object) {
+	public void d(String tag, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.DEBUG, tag, object);
+			log(DEBUG, tag, object);
 		}
 	}
 
 	@Override
-	public void d(@NonNull Class<?> clazz, Object object) {
+	public void d(Class<?> clazz, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.DEBUG, clazz.getSimpleName(), object);
+			log(DEBUG, clazz.getSimpleName(), object);
 		}
 	}
 
 	@Override
 	public void d(Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.DEBUG, mConfig.getTag(), object);
+			log(DEBUG, mConfig.getTag(), object);
 		}
 	}
 
 	@Override
-	public void i(@NonNull String tag, String format, Object... args) {
+	public void i(String tag, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.INFO, tag, format, args);
+			log(INFO, tag, format, args);
 		}
 	}
 
 	@Override
-	public void i(@NonNull Class<?> clazz, String format, Object... args) {
+	public void i(Class<?> clazz, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.INFO, clazz.getSimpleName(), format, args);
+			log(INFO, clazz.getSimpleName(), format, args);
 		}
 	}
 
 	@Override
 	public void i(String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.INFO, mConfig.getTag(), format, args);
+			log(INFO, mConfig.getTag(), format, args);
 		}
 	}
 
 	@Override
-	public void i(@NonNull String tag, Object object) {
+	public void i(String tag, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.INFO, tag, object);
+			log(INFO, tag, object);
 		}
 	}
 
 	@Override
-	public void i(@NonNull Class<?> clazz, Object object) {
+	public void i(Class<?> clazz, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.INFO, clazz.getSimpleName(), object);
+			log(INFO, clazz.getSimpleName(), object);
 		}
 	}
 
 	@Override
 	public void i(Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.INFO, mConfig.getTag(), object);
+			log(INFO, mConfig.getTag(), object);
 		}
 	}
 
 	@Override
-	public void w(@NonNull String tag, String format, Object... args) {
+	public void w(String tag, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.WARN, tag, format, args);
+			log(WARN, tag, format, args);
 		}
 	}
 
 	@Override
-	public void w(@NonNull Class<?> clazz, String format, Object... args) {
+	public void w(Class<?> clazz, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.WARN, clazz.getSimpleName(), format, args);
+			log(WARN, clazz.getSimpleName(), format, args);
 		}
 	}
 
 	@Override
 	public void w(String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.WARN, mConfig.getTag(), format, args);
+			log(WARN, mConfig.getTag(), format, args);
 		}
 	}
 
 	@Override
-	public void w(@NonNull String tag, Object object) {
+	public void w(String tag, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.WARN, tag, object);
+			log(WARN, tag, object);
 		}
 	}
 
 	@Override
-	public void w(@NonNull Class<?> clazz, Object object) {
+	public void w(Class<?> clazz, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.WARN, clazz.getSimpleName(), object);
+			log(WARN, clazz.getSimpleName(), object);
 		}
 	}
 
 	@Override
 	public void w(Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.WARN, mConfig.getTag(), object);
+			log(WARN, mConfig.getTag(), object);
 		}
 	}
 
 	@Override
-	public void e(@NonNull String tag, String format, Object... args) {
+	public void e(String tag, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ERROR, tag, format, args);
+			log(ERROR, tag, format, args);
 		}
 	}
 
 	@Override
-	public void e(@NonNull Class<?> clazz, String format, Object... args) {
+	public void e(Class<?> clazz, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ERROR, clazz.getSimpleName(), format, args);
+			log(ERROR, clazz.getSimpleName(), format, args);
 		}
 	}
 
 	@Override
 	public void e(String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ERROR, mConfig.getTag(), format, args);
+			log(ERROR, mConfig.getTag(), format, args);
 		}
 	}
 
 	@Override
-	public void e(@NonNull String tag, Object object) {
+	public void e(String tag, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ERROR, tag, object);
+			log(ERROR, tag, object);
 		}
 	}
 
 	@Override
-	public void e(@NonNull Class<?> clazz, Object object) {
+	public void e(Class<?> clazz, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ERROR, clazz.getSimpleName(), object);
+			log(ERROR, clazz.getSimpleName(), object);
 		}
 	}
 
 	@Override
 	public void e(Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ERROR, mConfig.getTag(), object);
+			log(ERROR, mConfig.getTag(), object);
 		}
 	}
 
 	@Override
-	public void wtf(@NonNull String tag, String format, Object... args) {
+	public void wtf(String tag, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ASSERT, tag, format, args);
+			log(ASSERT, tag, format, args);
 		}
 	}
 
 	@Override
-	public void wtf(@NonNull Class<?> clazz, String format, Object... args) {
+	public void wtf(Class<?> clazz, String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ASSERT, clazz.getSimpleName(), format, args);
+			log(ASSERT, clazz.getSimpleName(), format, args);
 		}
 	}
 
 	@Override
 	public void wtf(String format, Object... args) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ASSERT, mConfig.getTag(), format, args);
+			log(ASSERT, mConfig.getTag(), format, args);
 		}
 	}
 
 	@Override
-	public void wtf(@NonNull String tag, Object object) {
+	public void wtf(String tag, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ASSERT, tag, object);
+			log(ASSERT, tag, object);
 		}
 	}
 
 	@Override
-	public void wtf(@NonNull Class<?> clazz, Object object) {
+	public void wtf(Class<?> clazz, Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ASSERT, clazz.getSimpleName(), object);
+			log(ASSERT, clazz.getSimpleName(), object);
 		}
 	}
 
 	@Override
 	public void wtf(Object object) {
 		if (mConfig.isLogEnable()) {
-			log(LoggerInfo.LogLevel.ASSERT, mConfig.getTag(), object);
+			log(ASSERT, mConfig.getTag(), object);
 		}
 	}
 
 	@Override
-	public void json(@NonNull String tag, String json) {
+	public void json(String tag, String json) {
 		if (mConfig.isLogEnable()) {
 			int indent = 4;
 			if (TextUtils.isEmpty(json)) {
@@ -367,7 +396,7 @@ public class LoggerImpl implements ILogger {
 	}
 
 	@Override
-	public void json(@NonNull Class<?> clazz, String json) {
+	public void json(Class<?> clazz, String json) {
 		if (mConfig.isLogEnable()) {
 			json(clazz.getSimpleName(), json);
 		}
@@ -381,7 +410,7 @@ public class LoggerImpl implements ILogger {
 	}
 
 	@Override
-	public void xml(@NonNull String tag, String xml) {
+	public void xml(String tag, String xml) {
 		if (mConfig.isLogEnable()) {
 			if (TextUtils.isEmpty(xml)) {
 				d(tag, "XML{xml is empty}");
@@ -402,7 +431,7 @@ public class LoggerImpl implements ILogger {
 	}
 
 	@Override
-	public void xml(@NonNull Class<?> clazz, String xml) {
+	public void xml(Class<?> clazz, String xml) {
 		if (mConfig.isLogEnable()) {
 			xml(clazz.getSimpleName(), xml);
 		}

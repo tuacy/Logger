@@ -4,9 +4,12 @@ package com.tuacy.logger.printer.impl;
 import android.util.Log;
 
 import com.tuacy.logger.bean.LoggerInfo;
-import com.tuacy.logger.printer.Printer;
+import com.tuacy.logger.printer.IPrinter;
 
-public class NormalPrinter implements Printer {
+/**
+ * 正常打印
+ */
+public class NormalPrinter implements IPrinter {
 
 	private static NormalPrinter sInstance;
 

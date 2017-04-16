@@ -2,17 +2,19 @@ package com.tuacy.logger.parse.impl;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.tuacy.logger.parse.IParser;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Intent对象转换为log字符串
+ */
 public class IntentParse implements IParser<Intent> {
 
-	private static Map<Integer, String> mFlagMap = new HashMap<>();
+	private static SparseArray<String> mFlagMap = new SparseArray<>();
 
 	static {
 		Class cla = Intent.class;
@@ -37,13 +39,13 @@ public class IntentParse implements IParser<Intent> {
 	}
 
 	@Override
-	public Class<Intent> parseClassType() {
+	public Class<Intent> classType() {
 		return Intent.class;
 	}
 
 	@Override
-	public String parseString(Intent intent, List<IParser> parsers) {
-		StringBuilder builder = new StringBuilder(parseClassType().getSimpleName() + " [" + LINE_SEPARATOR);
+	public String parse(Intent intent, List<IParser> parsers) {
+		StringBuilder builder = new StringBuilder(classType().getSimpleName() + " [" + LINE_SEPARATOR);
 		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Scheme", intent.getScheme()));
 		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Action", intent.getAction()));
 		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "DataString", intent.getDataString()));
@@ -52,13 +54,14 @@ public class IntentParse implements IParser<Intent> {
 		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "ComponentInfo", intent.getComponent()));
 		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Flags", getFlags(intent.getFlags())));
 		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Categories", intent.getCategories()));
-		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Extras", new BundleParse().parseString(intent.getExtras(), parsers)));
+		builder.append(String.format("%s = %s" + LINE_SEPARATOR, "Extras", new BundleParse().parse(intent.getExtras(), parsers)));
 		return builder.toString() + "]";
 	}
 
 	private String getFlags(int flags) {
 		StringBuilder builder = new StringBuilder();
-		for (int flagKey : mFlagMap.keySet()) {
+		for (int i = 0; i < mFlagMap.size(); i++) {
+			int flagKey = mFlagMap.keyAt(i);
 			if ((flagKey & flags) == flagKey) {
 				builder.append(mFlagMap.get(flagKey));
 				builder.append(" | ");

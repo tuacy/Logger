@@ -1,8 +1,6 @@
 package com.tuacy.logger.bean;
 
 
-import android.support.annotation.NonNull;
-
 /**
  * 日志信息封装
  */
@@ -103,7 +101,7 @@ public class LoggerInfo {
 		 */
 		private int 				mStackCount;
 
-		public Builder(@NonNull LogLevel logLevel, @NonNull String tag, @NonNull String message) {
+		public Builder(LogLevel logLevel, String tag, String message) {
 			this.mLogLevel = logLevel;
 			this.mTag = tag;
 			this.mMessage = message;

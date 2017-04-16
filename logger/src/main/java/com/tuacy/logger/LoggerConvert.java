@@ -17,7 +17,8 @@ public class LoggerConvert {
 
 	/**
 	 * object对象转换为String
-	 * @param object 对象
+	 *
+	 * @param object  对象
 	 * @param parsers 我们Log库提供转换
 	 * @return string
 	 */
@@ -27,8 +28,9 @@ public class LoggerConvert {
 
 	/**
 	 * object对象转换为String
-	 * @param object 对象
-	 * @param parsers 我们Log库提供转换
+	 *
+	 * @param object     对象
+	 * @param parsers    我们Log库提供转换
 	 * @param childLevel 等级
 	 * @return string
 	 */
@@ -42,8 +44,8 @@ public class LoggerConvert {
 		 */
 		if (parsers != null && parsers.size() > 0) {
 			for (IParser parser : parsers) {
-				if (parser.parseClassType().isAssignableFrom(object.getClass())) {
-					return parser.parseString(object, parsers);
+				if (parser.classType().isAssignableFrom(object.getClass())) {
+					return parser.parse(object, parsers);
 				}
 			}
 		}
@@ -73,6 +75,7 @@ public class LoggerConvert {
 
 	/**
 	 * 判断对象是否是数组
+	 *
 	 * @param object 对象
 	 * @return 是否是数组
 	 */
@@ -82,7 +85,8 @@ public class LoggerConvert {
 
 	/**
 	 * 将数组内容转化为字符串
-	 * @param array 数组
+	 *
+	 * @param array   数组
 	 * @param parsers 内部支持的解析
 	 * @return 字符串
 	 */
@@ -152,8 +156,9 @@ public class LoggerConvert {
 
 	/**
 	 * 获取数组的纬度
+	 *
 	 * @param object 数组
-	 * @return
+	 * @return dimension
 	 */
 	public static int getArrayDimension(Object object) {
 		int dim = 0;
@@ -171,6 +176,7 @@ public class LoggerConvert {
 	 * 获取数组类型
 	 *
 	 * @param object 如L为int型
+	 * @return type
 	 */
 	public static char getType(Object object) {
 		if (isArray(object)) {
@@ -203,7 +209,12 @@ public class LoggerConvert {
 	 * @param isSubClass  是否class
 	 * @param childOffset 递归解析属性的层级
 	 */
-	private static void getClassFields(Class cla, StringBuilder builder, Object o, boolean isSubClass, int childOffset, List<IParser> parsers) {
+	private static void getClassFields(Class cla,
+									   StringBuilder builder,
+									   Object o,
+									   boolean isSubClass,
+									   int childOffset,
+									   List<IParser> parsers) {
 		if (cla.equals(Object.class)) {
 			return;
 		}

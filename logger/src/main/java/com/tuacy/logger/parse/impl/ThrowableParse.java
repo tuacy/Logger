@@ -7,15 +7,18 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+/**
+ * Throwable对象转换为log字符串
+ */
 public class ThrowableParse implements IParser<Throwable> {
 
 	@Override
-	public Class<Throwable> parseClassType() {
+	public Class<Throwable> classType() {
 		return Throwable.class;
 	}
 
 	@Override
-	public String parseString(Throwable throwable, List<IParser> parsers) {
+	public String parse(Throwable throwable, List<IParser> parsers) {
 		return getStackTraceString(throwable);
 	}
 

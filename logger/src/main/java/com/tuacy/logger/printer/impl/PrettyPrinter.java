@@ -5,9 +5,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.tuacy.logger.bean.LoggerInfo;
-import com.tuacy.logger.printer.Printer;
+import com.tuacy.logger.printer.IPrinter;
 
-public class PrettyPrinter implements Printer {
+/**
+ * 对打印格式做了一些处理
+ */
+public class PrettyPrinter implements IPrinter {
 
 	/**
 	 * Android's max limit for a log entry is ~4076 bytes, so 4000 bytes is used as chunk size since default charset is UTF-8
