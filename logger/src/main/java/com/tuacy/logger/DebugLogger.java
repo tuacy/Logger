@@ -13,7 +13,6 @@ public class DebugLogger {
 	 * 添加自定义的log对象解析
 	 *
 	 * @param parser 自定义log对象解析的实现
-	 * @return LoggerBuild
 	 */
 	public void addParse(IParser parser) {
 		logger.setBuild(logger.getBuild().addParse(parser));
@@ -23,7 +22,6 @@ public class DebugLogger {
 	 * 设置默认的log tag
 	 *
 	 * @param tag tag
-	 * @return LoggerBuild
 	 */
 	public static void setTag(String tag) {
 		logger.setBuild(logger.getBuild().setTag(tag));
@@ -33,7 +31,6 @@ public class DebugLogger {
 	 * 设置log等级
 	 *
 	 * @param level log等级
-	 * @return LoggerBuild
 	 */
 	public static void setLogLevel(LoggerInfo.LogLevel level) {
 		logger.setBuild(logger.getBuild().setLogLevel(level));
@@ -43,7 +40,6 @@ public class DebugLogger {
 	 * 设置是否允许log
 	 *
 	 * @param enable 是否允许
-	 * @return LoggerBuild
 	 */
 	public static void setLogEnable(boolean enable) {
 		logger.setBuild(logger.getBuild().setLogEnable(enable));
@@ -53,7 +49,6 @@ public class DebugLogger {
 	 * 设置log的输出格式
 	 *
 	 * @param printer log输出格式
-	 * @return LoggerBuild
 	 */
 	public static void setPrinter(IPrinter printer) {
 		logger.setBuild(logger.getBuild().setPrinter(printer));
@@ -64,7 +59,6 @@ public class DebugLogger {
 	 * 设置log是否显示线程名字
 	 *
 	 * @param show 是否显示线程名字
-	 * @return LoggerBuild
 	 */
 	public static void setShowThreadName(boolean show) {
 		logger.setBuild(logger.getBuild().setShowThreadName(show));
@@ -75,7 +69,6 @@ public class DebugLogger {
 	 * 是否打印log堆栈信息
 	 *
 	 * @param show 是否打印log堆栈信息
-	 * @return LoggerBuild
 	 */
 	public static void setShowStackTrace(boolean show) {
 		logger.setBuild(logger.getBuild().setShowStackTrace(show));
@@ -86,7 +79,6 @@ public class DebugLogger {
 	 * 设置log后面几级堆栈信息
 	 *
 	 * @param count int
-	 * @return LoggerBuild
 	 */
 	public static void setStackCount(int count) {
 		logger.setBuild(logger.getBuild().setStackCount(count));

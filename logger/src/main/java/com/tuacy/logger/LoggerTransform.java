@@ -44,6 +44,7 @@ public class LoggerTransform {
 	 * @param object     对象
 	 * @param parsers    我们Log库提供转换
 	 * @param childLevel 等级
+	 * @return string
 	 */
 	public static String transformToString(Object object, List<IParser> parsers, int childLevel) {
 		return transformToString(object, 0, parsers, childLevel);

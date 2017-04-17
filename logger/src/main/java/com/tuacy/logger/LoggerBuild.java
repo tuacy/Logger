@@ -235,6 +235,7 @@ public class LoggerBuild {
 
 	/**
 	 * 获取log后面几级堆栈信息
+	 * @return int
 	 */
 	public int getStackCount() {
 		return mStackCount;
