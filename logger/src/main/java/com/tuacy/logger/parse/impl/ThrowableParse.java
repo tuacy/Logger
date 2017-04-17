@@ -19,6 +19,11 @@ public class ThrowableParse implements IParser<Throwable> {
 
 	@Override
 	public String parse(Throwable throwable, List<IParser> parsers) {
+		return parse(throwable, 0, parsers);
+	}
+
+	@Override
+	public String parse(Throwable throwable, int tab, List<IParser> parsers) {
 		return getStackTraceString(throwable);
 	}
 

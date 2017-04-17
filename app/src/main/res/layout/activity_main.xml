@@ -15,43 +15,62 @@
             android:id="@+id/button_log_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="打印 normal"/>
-
-        <Button
-            android:id="@+id/button_log_intent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="打印 intent"/>
+            android:text="@string/log_normal" />
 
         <Button
             android:id="@+id/button_log_bundle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="打印 bundle"/>
+            android:text="@string/log_bundle" />
 
         <Button
-            android:id="@+id/button_log_map"
+            android:id="@+id/button_log_intent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="打印 map"/>
-
-        <Button
-            android:id="@+id/button_log_reference"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="打印 reference"/>
+            android:text="@string/log_intent" />
 
         <Button
             android:id="@+id/button_log_collection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="打印 collection"/>
+            android:text="@string/log_Collection" />
+
+        <Button
+            android:id="@+id/button_log_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_map" />
+
+        <Button
+            android:id="@+id/button_log_reference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_Reference" />
 
         <Button
             android:id="@+id/button_log_throwable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="打印 Throwable"/>
+            android:text="@string/log_throwable" />
+
+        <Button
+            android:id="@+id/button_log_customer_string"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_custer_with_string" />
+
+        <Button
+            android:id="@+id/button_log_customer_bean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_custer_no_string" />
+
+        <Button
+            android:id="@+id/button_log_customer_parse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_custer_parse" />
+
 
     </LinearLayout>
 </ScrollView>

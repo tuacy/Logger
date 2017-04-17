@@ -30,11 +30,19 @@ import static com.tuacy.logger.bean.LoggerInfo.LogLevel.WARN;
  */
 public class LoggerImpl implements ILogger {
 
-	private final LoggerBuild mConfig;
+	private LoggerBuild mConfig;
 
 
 	public LoggerImpl(LoggerBuild config) {
 		mConfig = config;
+	}
+
+	public LoggerBuild getBuild() {
+		return mConfig;
+	}
+
+	public void setBuild(LoggerBuild build) {
+		mConfig = build;
 	}
 
 	private void log(LoggerInfo.LogLevel logLevel, String tag, String format, Object... args) {
@@ -42,7 +50,7 @@ public class LoggerImpl implements ILogger {
 	}
 
 	private void log(LoggerInfo.LogLevel logLevel, String tag, Object object) {
-		log(logLevel, tag, LoggerConvert.objectToString(object, mConfig.getParseList()));
+		log(logLevel, tag, LoggerTransform.transformToString(object, mConfig.getParseList()));
 	}
 
 	private void log(LoggerInfo.LogLevel logLevel, String tag, String message) {

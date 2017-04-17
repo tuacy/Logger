@@ -1,8 +1,9 @@
 package com.tuacy.logger.parse.impl;
 
 
-import com.tuacy.logger.LoggerConvert;
+import com.tuacy.logger.LoggerTransform;
 import com.tuacy.logger.parse.IParser;
+import com.tuacy.logger.parse.TabUtils;
 
 import java.lang.ref.Reference;
 import java.util.List;
@@ -19,9 +20,19 @@ public class ReferenceParse implements IParser<Reference> {
 
 	@Override
 	public String parse(Reference reference, List<IParser> parsers) {
+		return parse(reference, 0, parsers);
+	}
+
+	@Override
+	public String parse(Reference reference, int tab, List<IParser> parsers) {
 		Object actual = reference.get();
-		StringBuilder builder = new StringBuilder(reference.getClass().getSimpleName() + "<" + actual.getClass().getSimpleName() + "> {");
-		builder.append("→" + LoggerConvert.objectToString(actual, parsers));
-		return builder.toString() + "}";
+		StringBuilder builder = new StringBuilder(
+			reference.getClass().getSimpleName() + "<" + actual.getClass().getSimpleName() + "> {" + LINE_SEPARATOR);
+		builder.append(TabUtils.getTabString(tab + 1));
+		builder.append(LoggerTransform.transformToString(actual, tab + 1, parsers));
+		builder.append(LINE_SEPARATOR);
+		builder.append(TabUtils.getTabString(tab));
+		builder.append("}");
+		return builder.toString();
 	}
 }

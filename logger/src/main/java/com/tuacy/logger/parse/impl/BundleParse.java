@@ -3,8 +3,9 @@ package com.tuacy.logger.parse.impl;
 import android.os.Bundle;
 
 
-import com.tuacy.logger.LoggerConvert;
+import com.tuacy.logger.LoggerTransform;
 import com.tuacy.logger.parse.IParser;
+import com.tuacy.logger.parse.TabUtils;
 
 import java.util.List;
 
@@ -20,11 +21,18 @@ public class BundleParse implements IParser<Bundle> {
 
 	@Override
 	public String parse(Bundle bundle, List<IParser> parsers) {
+		return parse(bundle, 0, parsers);
+	}
+
+	@Override
+	public String parse(Bundle bundle, int tab, List<IParser> parsers) {
 		if (bundle != null) {
 			StringBuilder builder = new StringBuilder(bundle.getClass().getName() + " [" + LINE_SEPARATOR);
 			for (String key : bundle.keySet()) {
-				builder.append(String.format("'%s' => %s " + LINE_SEPARATOR, key, LoggerConvert.objectToString(bundle.get(key), parsers)));
+				builder.append(TabUtils.getTabString(tab + 1));
+				builder.append(String.format("'%s' => %s " + LINE_SEPARATOR, key, LoggerTransform.transformToString(bundle.get(key), parsers)));
 			}
+			builder.append(TabUtils.getTabString(tab));
 			builder.append("]");
 			return builder.toString();
 		}

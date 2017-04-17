@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">logger</string>
+    <string name="log_normal">打印(String, Int, Float)</string>
+    <string name="log_intent">打印(Intent)</string>
+    <string name="log_bundle">打印(Bundle)</string>
+    <string name="log_map">打印(Map)</string>
+    <string name="log_Collection">打印(Collection)</string>
+    <string name="log_Reference">打印(Reference)</string>
+    <string name="log_throwable">打印(Throwable)</string>
+    <string name="log_custer_with_string">打印自定义的对象(重写toString)</string>
+    <string name="log_custer_no_string">打印自定义的对象(不重写toString)</string>
+    <string name="log_custer_parse">打印自定义Parse</string>
 </resources>

@@ -29,4 +29,14 @@ public interface IParser<T> {
 	 * @return string
 	 */
 	String parse(T t, List<IParser> parsers);
+
+	/**
+	 * 把我们想要输出的对象转换成String
+	 *
+	 * @param t       对象
+	 * @param tab     缩进等级
+	 * @param parsers 支持的转换库(对象里面可能还有对象，可能内部还得在转换)
+	 * @return string
+	 */
+	String parse(T t, int tab, List<IParser> parsers);
 }

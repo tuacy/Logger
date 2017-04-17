@@ -1,8 +1,9 @@
 package com.tuacy.logger.parse.impl;
 
 
-import com.tuacy.logger.LoggerConvert;
+import com.tuacy.logger.LoggerTransform;
 import com.tuacy.logger.parse.IParser;
+import com.tuacy.logger.parse.TabUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,11 @@ public class MapParse implements IParser<Map> {
 
 	@Override
 	public String parse(Map map, List<IParser> parsers) {
+		return parse(map, 0, parsers);
+	}
+
+	@Override
+	public String parse(Map map, int tab, List<IParser> parsers) {
 		String msg = map.getClass().getName() + " [" + LINE_SEPARATOR;
 		Set keys = map.keySet();
 		for (Object key : keys) {
@@ -32,8 +38,10 @@ public class MapParse implements IParser<Map> {
 					value = "\'" + value + "\'";
 				}
 			}
-			msg += String.format(itemString, LoggerConvert.objectToString(key, parsers), LoggerConvert.objectToString(value, parsers));
+			msg += TabUtils.getTabString(tab + 1) + String.format(itemString, LoggerTransform.transformToString(key, parsers),
+																  LoggerTransform.transformToString(value, tab + 1, parsers));
 		}
+		msg = msg + TabUtils.getTabString(tab);
 		return msg + "]";
 	}
 }
