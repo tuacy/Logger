@@ -11,7 +11,7 @@ public class CustomerParseImp implements IParser<CustomerParseBean> {
 
 	@Override
 	public Class<CustomerParseBean> classType() {
-		return null;
+		return CustomerParseBean.class;
 	}
 
 	@Override

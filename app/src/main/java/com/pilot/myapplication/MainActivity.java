@@ -273,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void logCustomerParse() {
 		CustomerParseBean bean = new CustomerParseBean();
+		DebugLogger.addParse(CustomerParseImp.class);
 		DebugLogger.d("tuacy", bean);
 	}
 

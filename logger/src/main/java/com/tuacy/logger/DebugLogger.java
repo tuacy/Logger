@@ -14,8 +14,14 @@ public class DebugLogger {
 	 *
 	 * @param parser 自定义log对象解析的实现
 	 */
-	public void addParse(IParser parser) {
-		logger.setBuild(logger.getBuild().addParse(parser));
+	public static void addParse(Class<? extends IParser> parser) {
+		try {
+			logger.setBuild(logger.getBuild().addParse(parser.newInstance()));
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
