@@ -10,7 +10,7 @@ public class PhoneApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		DebugLogger.setShowThreadName(false);
-		DebugLogger.setShowStackTrace(false);
+//		DebugLogger.setShowThreadName(false);
+//		DebugLogger.setShowStackTrace(false);
 	}
 }

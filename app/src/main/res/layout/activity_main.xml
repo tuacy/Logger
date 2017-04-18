@@ -11,10 +11,160 @@
         android:layout_marginRight="16dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/log_switch" />
+
+            <RadioGroup
+                android:id="@+id/group_log_enable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_log_enable_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radio_log_enable_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/close" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/log_level" />
+
+            <Spinner
+                android:id="@+id/spinner_log_level"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/log_thread" />
+
+            <RadioGroup
+                android:id="@+id/group_log_thread"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_log_thread_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radio_log_thread_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/close" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:text="@string/log_stack" />
+
+            <RadioGroup
+                android:id="@+id/group_log_stack"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_log_stack_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radio_log_stack_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/close" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/button_log_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/log_normal" />
 
         <Button
@@ -54,6 +204,12 @@
             android:text="@string/log_throwable" />
 
         <Button
+            android:id="@+id/button_log_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_format" />
+
+        <Button
             android:id="@+id/button_log_customer_string"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +226,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/log_custer_parse" />
-
 
     </LinearLayout>
 </ScrollView>

@@ -4,20 +4,31 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.pilot.myapplication.bean.CustomerBean;
 import com.pilot.myapplication.bean.CustomerParseBean;
 import com.pilot.myapplication.bean.CustomerString;
 import com.tuacy.logger.DebugLogger;
+import com.tuacy.logger.bean.LoggerInfo;
 
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+	private Spinner    mSpinnerLevel;
+	private RadioGroup mGroupLogEnable;
+	private RadioGroup mGroupLogThread;
+	private RadioGroup mGroupLogStack;
 
 	private Button mButtonString;
 	private Button mButtonIntent;
@@ -29,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 	private Button mButtonCustomerString;
 	private Button mButtonCustomerBean;
 	private Button mButtonCustomerParse;
+	private Button mButtonFormat;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +48,14 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 		initView();
 		initEvent();
+		initData();
 	}
 
 	private void initView() {
+		mSpinnerLevel = (Spinner) findViewById(R.id.spinner_log_level);
+		mGroupLogEnable = (RadioGroup) findViewById(R.id.group_log_enable);
+		mGroupLogThread = (RadioGroup) findViewById(R.id.group_log_thread);
+		mGroupLogStack = (RadioGroup) findViewById(R.id.group_log_stack);
 		mButtonString = (Button) findViewById(R.id.button_log_normal);
 		mButtonIntent = (Button) findViewById(R.id.button_log_intent);
 		mButtonBundle = (Button) findViewById(R.id.button_log_bundle);
@@ -49,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 		mButtonCustomerString = (Button) findViewById(R.id.button_log_customer_string);
 		mButtonCustomerBean = (Button) findViewById(R.id.button_log_customer_bean);
 		mButtonCustomerParse = (Button) findViewById(R.id.button_log_customer_parse);
+		mButtonFormat = (Button) findViewById(R.id.button_log_format);
 	}
 
 	private void initEvent() {
@@ -113,6 +131,86 @@ public class MainActivity extends AppCompatActivity {
 				logCustomerParse();
 			}
 		});
+		mButtonFormat.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				logFormat();
+			}
+		});
+		mSpinnerLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				switch (position) {
+					case 0:
+						DebugLogger.setLogLevel(LoggerInfo.LogLevel.VERBOSE);
+						break;
+					case 1:
+						DebugLogger.setLogLevel(LoggerInfo.LogLevel.DEBUG);
+						break;
+					case 2:
+						DebugLogger.setLogLevel(LoggerInfo.LogLevel.INFO);
+						break;
+					case 3:
+						DebugLogger.setLogLevel(LoggerInfo.LogLevel.WARN);
+						break;
+					case 4:
+						DebugLogger.setLogLevel(LoggerInfo.LogLevel.ERROR);
+						break;
+					case 5:
+						DebugLogger.setLogLevel(LoggerInfo.LogLevel.ASSERT);
+						break;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+
+		});
+		mGroupLogEnable.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (checkedId == R.id.radio_log_enable_yes) {
+					DebugLogger.setLogEnable(true);
+				} else {
+					DebugLogger.setLogEnable(false);
+				}
+			}
+		});
+		mGroupLogThread.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (checkedId == R.id.radio_log_thread_yes) {
+					DebugLogger.setShowThreadName(true);
+				} else {
+					DebugLogger.setShowThreadName(false);
+				}
+			}
+		});
+		mGroupLogStack.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (checkedId == R.id.radio_log_stack_yes) {
+					DebugLogger.setShowStackTrace(true);
+				} else {
+					DebugLogger.setShowStackTrace(false);
+				}
+			}
+		});
+	}
+
+	private void initData() {
+		ArrayList<String> data = new ArrayList<>();
+		data.add("VERBOSE");
+		data.add("DEBUG");
+		data.add("INFO");
+		data.add("WARN");
+		data.add("ERROR");
+		data.add("ASSERT");
+		ArrayAdapter<String> adapterLogLevel = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
+		adapterLogLevel.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mSpinnerLevel.setAdapter(adapterLogLevel);
 	}
 
 	private void logNormal() {
@@ -176,5 +274,9 @@ public class MainActivity extends AppCompatActivity {
 	private void logCustomerParse() {
 		CustomerParseBean bean = new CustomerParseBean();
 		DebugLogger.d("tuacy", bean);
+	}
+
+	private void logFormat() {
+		DebugLogger.d("tuacy", "%s %d", "Android", 1);
 	}
 }
